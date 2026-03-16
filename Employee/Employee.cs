@@ -10,9 +10,6 @@ namespace Employee
     {
 
 
-
-
-
         //  attributes 
 
         private string? _gender;
