@@ -27,9 +27,9 @@ namespace Part2ProductSales
                 _stockLevel = value;
             }
         }
-        public decimal UnitPrice { get;  set; }
+        public decimal UnitPrice { get; set; }
 
-        public string Name { get;  set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The Constructor initializes the Name and UnitPrice properties, and sets the initial StockLevel to 0 when a new Product is created.
@@ -41,6 +41,13 @@ namespace Part2ProductSales
             Name = name;
             UnitPrice = price;
             StockLevel = 0; // initialize stock level to 0 when a new product is created
+        }
+
+        public Product(string name, decimal price, int initalQuantity)
+        {
+            Name = name;
+            UnitPrice = price;
+            StockLevel = initalQuantity;
         }
 
         /// <summary>
@@ -74,5 +81,12 @@ namespace Part2ProductSales
             return true;
         }
 
+
+        public override string ToString()
+        {
+            return $"{Name} - Price: {UnitPrice:C}";
+        }
     }
+
+   
 }
