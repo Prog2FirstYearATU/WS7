@@ -78,13 +78,55 @@ namespace Part2ProductSales
         static void ProcessingSalesTransaction()
         {
             Console.WriteLine("Processing Sales Transaction");
+
+
+            ShoppingBasket basket = new ShoppingBasket();
+
+            string[] salesMenuOptions = { "Add product to basket", "Checkout Basket and return to main menu", "Abandon Basket and return to main menu" };
+
+            Menu salesMenu = new Menu(salesMenuOptions);
+
+            int choice = 0;
+            int productChoice = 0;
+
+
+            do
+            {
+                Console.WriteLine(" Sales Menu\n ");
+                choice = salesMenu.GetMenuChoice();
+                switch (choice)
+                {
+                    case 1:
+                        GetItemToAddToBasket(basket);
+                        break;
+                    case 2:
+                        decimal total = basket.TotalValue();
+                        Console.WriteLine(basket.ToString());
+                        Console.WriteLine($"{total} has been deducted from your account");
+                        basket.Empty();
+                        break;
+                    case 3:
+                        basket.Return();
+                        Console.WriteLine("Your basket has been returned to stock");
+                        break;
+
+                }
+            }
+            while (choice == 1);
+
+        }
+
+
+
+        public static ShoppingBasket GetItemToAddToBasket(ShoppingBasket basket)
+        {
+
             string[] productMenuItems = new string[products.Count];
 
             for (int i = 0; i < products.Count; i++)
             {
                 productMenuItems[i] = products[i].ToString();
             }
-
 
             Menu productMenu = new Menu(productMenuItems);
 
@@ -101,16 +143,22 @@ namespace Part2ProductSales
 
             bool enoughProduct = chosenProduct.Sell(quantity);
 
+
+
             if (!enoughProduct)
             {
                 Console.WriteLine("Sorry not enough in stock");
             }
             else
             {
-                Console.WriteLine($"You bought {quantity} {chosenProduct.Name} for {quantity * chosenProduct.UnitPrice:C}");
+                basket.AddToBasket(chosenProduct, quantity);
+                Console.WriteLine($"You have added {quantity} {chosenProduct.Name} for {quantity * chosenProduct.UnitPrice:C}");
             }
 
+            return basket;
+
         }
+
 
 
         static void RestockProduct()
@@ -128,6 +176,7 @@ namespace Part2ProductSales
 
 
             /// this is not roubut, but it is just a demo
+            /// 
             int choice = productMenu.GetMenuChoice();
 
             Product chosenProduct = products[choice - 1];

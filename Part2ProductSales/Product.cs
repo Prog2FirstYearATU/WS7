@@ -73,11 +73,11 @@ namespace Part2ProductSales
         /// <returns></returns>
         public bool Sell(int quantity)
         {
-            if (quantity < 0)
+            if (quantity < 0 || quantity > StockLevel)
             {
                 return false;
             }
-            StockLevel -= quantity; // increase stock level by the specified quantity
+            StockLevel -= quantity; // decrease stock level by the specified quantity
             return true;
         }
 
